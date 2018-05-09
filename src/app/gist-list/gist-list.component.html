@@ -1,0 +1,48 @@
+<mat-toolbar color="primary" class="mat-elevation-z5">
+  <span>
+    <a aria-label="GitHub Repository" target="_blank" class="git" href="https://github.com/namicersei/gist">
+      Nami Gist
+    </a>
+  </span>
+  <span class="example-spacer"></span>
+
+  <div *ngIf="searchEnabled">
+    <mat-icon  (click)="changeSearch()" class="search">close</mat-icon>
+    <mat-form-field>
+      <input matInput [(ngModel)]="searchTerm" (input)="onSearch($event.target.value)" type="text">
+    </mat-form-field>
+  </div>
+
+  <mat-icon *ngIf="!searchEnabled" (click)="changeSearch()" class="search">search</mat-icon>
+
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="sortBy">Sort by</button>
+  </mat-menu>
+
+  <mat-menu #sortBy="matMenu">
+    <button mat-menu-item (click)="sortArray(1)">Recent Updated</button>
+    <button mat-menu-item (click)="sortArray(2)">First Updated</button>
+    <button mat-menu-item (click)="sortArray(3)">Name</button>
+    <button mat-menu-item (click)="sortArray(4)">Description</button>
+  </mat-menu>
+
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+</mat-toolbar>
+
+<mat-grid-list *ngIf="searchEnabled" cols="4" rowHeight="4:3" infiniteScroll (scrolled)="onScroll()" >
+  <mat-grid-tile *ngFor="let g of searchItems">
+    <app-gist-list-item [data]="g"></app-gist-list-item>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-grid-list *ngIf="!searchEnabled" cols="4" rowHeight="4:3" infiniteScroll (scrolled)="onScroll()" >
+  <mat-grid-tile *ngFor="let g of gist_list">
+    <app-gist-list-item [data]="g"></app-gist-list-item>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-spinner *ngIf="!searchEnabled" class="spinner"></mat-spinner>
+

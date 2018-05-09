@@ -1,0 +1,21 @@
+<mat-card class="card" (click)="openGist()">
+  <div class="d-flex justify-content-start">
+    <div>
+      <div class="myImageContainer">
+        <img class="myImage" mat-card-image src={{data.owner.avatar_url}} alt={{data.owner.login}}>
+      </div>
+    </div>
+    <div>
+      <mat-card-header>
+        <mat-card-title>{{data.owner.login}}</mat-card-title>
+        <mat-card-subtitle>{{data.updated_at}}</mat-card-subtitle>
+      </mat-card-header>
+    </div>
+  </div>
+  <mat-card-content>
+    <p *ngIf="data.description else elseBlock" class="desc">{{data.description}}</p>
+    <ng-template #elseBlock>No description</ng-template>
+  </mat-card-content>
+</mat-card>
+
+
